@@ -1,0 +1,91 @@
+IF OBJECT_ID('LOGS_SIMILARIDADE_PRODUTOS', 'U') IS NULL
+	BEGIN
+		CREATE TABLE LOGS_SIMILARIDADE_PRODUTOS (
+			LOGS VARCHAR(MAX),
+			ATUALIZACAO DATETIME
+		);
+	END
+
+IF OBJECT_ID('SIMILARIDADE_PRODUTOS', 'U') IS NULL
+	BEGIN
+		CREATE TABLE SIMILARIDADE_PRODUTOS (
+			PRODUTO_A   INT,
+			DESCRICAO_A VarChar(100),
+			PRODUTO_B   INT,
+			DESCRICAO_B VarChar(100),
+			QTD_JUNTOS  Decimal(14,2),
+			TOTAL       Decimal(14,2),
+			CONFIANCA   Decimal(5,4)
+		);
+	END
+
+IF OBJECT_ID('SIMILARIDADE_PRODUTOS_HISTORY', 'U') IS NULL
+	BEGIN
+		CREATE TABLE SIMILARIDADE_PRODUTOS_HISTORY (
+			PRODUTO_A  VarChar(100),    
+			PRODUTO_B  VarChar(100),    
+			QTD_JUNTOS Decimal(14,2),
+			TOTAL      Decimal(14,2),
+			VERSION	   DateTime
+		);
+	END
+
+IF OBJECT_ID('SELLOUT', 'U') IS NULL
+	BEGIN
+		CREATE TABLE SELLOUT (
+			VENDA     BigInt,	
+			PRODUTO   Int,
+			MOVIMENTO Date
+		);
+	END
+
+IF OBJECT_ID('PRODUTOS', 'U') IS NULL
+	BEGIN
+		CREATE TABLE PRODUTOS (
+			PRODUTO		   Int,	
+			DESCRICAO	   VarChar(100),	
+			STATUS_PRODUTO Int
+		);
+	END
+
+-- Inserindo produtos fictícios
+INSERT INTO PRODUTOS (PRODUTO, DESCRICAO, STATUS_PRODUTO)
+VALUES 
+(1, 'Arroz 5kg', 1),
+(2, 'Feijão 1kg', 1),
+(3, 'Açúcar 1kg', 1),
+(4, 'Café 500g', 1),
+(5, 'Macarrão 500g', 1),
+(6, 'Óleo 900ml', 1),
+(7, 'Biscoito Recheado', 1),
+(8, 'Leite 1L', 1);
+
+-- Inserindo vendas fictícias (SELLOUT) nos últimos dias
+INSERT INTO SELLOUT (VENDA, PRODUTO, MOVIMENTO)
+VALUES
+(1001, 1, DATEADD(DAY, -2, GETDATE())),
+(1001, 2, DATEADD(DAY, -2, GETDATE())),
+(1001, 3, DATEADD(DAY, -2, GETDATE())),
+(1002, 1, DATEADD(DAY, -2, GETDATE())),
+(1002, 4, DATEADD(DAY, -2, GETDATE())),
+(1003, 5, DATEADD(DAY, -2, GETDATE())),
+(1003, 6, DATEADD(DAY, -2, GETDATE())),
+(1004, 1, DATEADD(DAY, -1, GETDATE())),
+(1004, 2, DATEADD(DAY, -1, GETDATE())),
+(1004, 4, DATEADD(DAY, -1, GETDATE())),
+(1005, 7, DATEADD(DAY, -1, GETDATE())),
+(1005, 8, DATEADD(DAY, -1, GETDATE()));
+
+-- Inserindo histórico inicial de similaridade
+INSERT INTO SIMILARIDADE_PRODUTOS_HISTORY (PRODUTO_A, PRODUTO_B, QTD_JUNTOS, TOTAL, VERSION)
+VALUES
+('1', '2', 5, 10, DATEADD(DAY, -5, GETDATE())),
+('1', '3', 2, 10, DATEADD(DAY, -5, GETDATE())),
+('2', '3', 4, 10, DATEADD(DAY, -5, GETDATE())),
+('4', '5', 3, 8, DATEADD(DAY, -5, GETDATE()));
+
+-- Inserindo logs anteriores
+INSERT INTO LOGS_SIMILARIDADE_PRODUTOS (LOGS, ATUALIZACAO)
+VALUES
+('Rotina executada com sucesso', DATEADD(DAY, -3, GETDATE())),
+('Rotina executada com sucesso', DATEADD(DAY, -1, GETDATE()));
