@@ -52,3 +52,42 @@ O projeto utiliza as seguintes tabelas:
 
 ```bash
 git clone https://github.com/seu-usuario/seu-repositorio.git
+
+
+2. Execute o Script de Setup
+O arquivo SQL contém um bloco de código inicial comentado com a instrução:
+
+sql
+Copiar
+Editar
+-- Rode este bloco caso seja a primeira vez que está executando o código --
+Execute este bloco em seu ambiente SQL Server. Ele irá:
+
+Criar todas as tabelas necessárias (PRODUTOS, SELLOUT, SIMILARIDADE_PRODUTOS, etc.).
+
+Inserir dados fictícios para permitir um teste funcional imediato.
+
+⚙️ Uso
+O script principal (-- Query de rotina) foi projetado para ser automatizado.
+
+Agendamento: A forma ideal de utilização é agendar a execução deste script para rodar periodicamente (ex: uma vez por dia, de madrugada) através de um scheduler de banco de dados, como o SQL Server Agent.
+
+Configuração de Datas: As variáveis no início do script controlam o período de execução:
+
+sql
+Copiar
+Editar
+@Data -- Define qual a data dos registros de SELLOUT a serem processados. Por padrão: DateAdd(Day, -2, GetDate())
+@Hoje -- Usada para verificar se a rotina já executou no dia atual
+Ao ser executado, o script realizará todo o processo de forma autônoma e, ao final, a tabela SIMILARIDADE_PRODUTOS estará atualizada com as recomendações mais recentes.
+
+✅ Resultado Esperado
+Uma base atualizada diariamente com os produtos mais frequentemente comprados juntos, pronta para alimentar:
+
+Dashboards em Power BI, Tableau ou Looker.
+
+Regras de recomendação em e-commerce.
+
+Estratégias de pricing e promoções combinadas.
+
+
