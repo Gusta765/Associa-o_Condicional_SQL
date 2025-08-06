@@ -52,7 +52,7 @@ O projeto utiliza as seguintes tabelas:
 
 ```bash
 git clone https://github.com/seu-usuario/seu-repositorio.git
-
+```
 
 2. Execute o Script de Setup
 O arquivo SQL contém um bloco de código inicial comentado com a instrução:
